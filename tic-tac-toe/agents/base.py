@@ -9,5 +9,5 @@ class Move(BaseModel):
 class BaseAgent(ABC):
 
     @abstractmethod
-    def get_move(self, board: list[list[str | None]]) -> Move:
+    def get_move(self, board: list[list[str | None]], marker:str) -> Move:
         ...

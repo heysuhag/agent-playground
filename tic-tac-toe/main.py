@@ -1,18 +1,34 @@
+from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parent.parent / ".env")
 from board import Board
 from game import Game
+import random
+from agents.claude import ClaudeAgent
+from agents.gpt import OAIAgent
+
+
+claude = ClaudeAgent()
+oai = OAIAgent()
+
+def decide_order(p1,p2):
+    if random.random() < 0.5:
+        return (p1,p2)
+    else:
+        return (p2,p1)
+
+player1, player2 = decide_order(claude,oai)
 
 board = Board()
-p1 = 'ant'
-p2 = 'gem'
 
-game = Game(board, player1=p1, player2=p2)
+game = Game(board, player1=player1, player2=player2)
 
-#moves = [(0,0), (1,0), (0,1), (1,1), (0,2), (2,2)]
-#moves = [(0,0), (0,1), (0,2), (1,1), (1,0), (1,2), (2,2), (2,0), (2,1)]
-moves = [(0,0), (1,0), (0,1), (1,1), (2,2), (1,2)]
+while not game.game_over():
+    print('-'*37)
+    current = game.current_player
+    print(f"Current player : {current} || Marker : {game.marker[current]}")
+    move = current.get_move(board=game.board.board, marker=game.marker[current])
+    print(f"Reasoning: {move.reasoning}")
+    game.play((move.row, move.col))
+    print('-'*37)
 
-for move in moves:
-    if game.game_over():
-        break
-    else:
-        game.play(move)
