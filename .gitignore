@@ -1,0 +1,26 @@
+# Environment variables
+.env
+.env.local
+
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Type checking
+.basedpyright/
+.pyright/
+
+# Ruff
+.ruff_cache/
+
+# macOS
+.DS_Store
