@@ -1,5 +1,6 @@
-import pygame
 import sys
+
+import pygame
 
 WIDTH, HEIGHT = 1280, 720
 PANEL_WIDTH = 280

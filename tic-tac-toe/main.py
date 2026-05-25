@@ -1,13 +1,17 @@
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 load_dotenv(Path(__file__).parent.parent / ".env")
 
+import random
+
+from agents.claude import ClaudeAgent
+from agents.gpt import OAIAgent
 from board import Board
 from game import Game
 from gui import GameRenderer
-import random
-from agents.claude import ClaudeAgent
-from agents.gpt import OAIAgent
+from voice import Voice
 
 claude = ClaudeAgent()
 oai   = OAIAgent()
@@ -19,14 +23,12 @@ def decide_order(p1, p2):
         return (p2, p1)
 
 player1, player2 = decide_order(claude, oai)
+player1_voice = Voice(gender='female')
+player2_voice = Voice()
 
 board = Board()
 game  = Game(board, player1=player1, player2=player2)
-
-x_agent = player1 if game.marker[player1] == "X" else player2
-o_agent = player1 if game.marker[player1] == "O" else player2
-
-renderer = GameRenderer(x_name=x_agent.name, o_name=o_agent.name)
+renderer = GameRenderer(x_name=player1.name, o_name=player2.name)
 
 x_reasoning = ""
 o_reasoning  = ""
@@ -43,15 +45,17 @@ while not game.game_over():
     move = current.get_move(board=game.board.board, marker=marker)
 
     if marker == "X":
-        x_reasoning = move.reasoning
+        x_reasoning = move.one_line_reasoning
+        player1_voice.speak(x_reasoning)
     else:
-        o_reasoning = move.reasoning
+        o_reasoning = move.one_line_reasoning
+        player2_voice.speak(o_reasoning)
 
     game.play((move.row, move.col))
 
 winner = game.board.win_detection()
 if winner:
-    winner_name = x_agent.name if winner == "X" else o_agent.name
+    winner_name = player1.name if winner == "X" else player2.name
     renderer.draw_winner(game.board.board, winner_name, x_reasoning, o_reasoning)
 else:
     renderer.draw_draw(game.board.board, x_reasoning, o_reasoning)

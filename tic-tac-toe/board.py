@@ -2,7 +2,7 @@
 class Board:
     def __init__(self):
 
-        self.board = [[None]*3, [None]*3, [None]*3]
+        self.board: list[list[str | None]] = [[None]*3, [None]*3, [None]*3]
         
 
     def move(self, position, marker):
