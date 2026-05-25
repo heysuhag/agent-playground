@@ -28,6 +28,7 @@ dependencies = [
     { name = "pydantic-ai" },
     { name = "pydantic-settings" },
     { name = "pygame" },
+    { name = "python-dotenv" },
 ]
 
 [package.dev-dependencies]
@@ -53,6 +54,7 @@ requires-dist = [
     { name = "pydantic-ai", specifier = ">=0.0.14" },
     { name = "pydantic-settings", specifier = ">=2.0" },
     { name = "pygame", specifier = ">=2.6" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata.requires-dev]
